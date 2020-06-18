@@ -4,10 +4,9 @@
   "private": true,
   "description": "CodeQL action",
   "scripts": {
-    "build": "tsc",
-    "test": "ava src/** --serial",
-    "lint": "tslint -p . -c tslint.json 'src/**/*.ts'",
-    "removeNPMAbsolutePaths": "removeNPMAbsolutePaths . --force"
+    "build": "ncc build src/finalize-db.ts -o analyze -sm --no-source-map-register && ncc build src/autobuild.ts -o autobuild -sm --no-source-map-register && ncc build src/setup-tracer.ts -o init -sm --no-source-map-register && ncc build src/upload-sarif.ts -o upload-sarif -sm --no-source-map-register",
+    "test": "tsc && ava src/** --serial",
+    "lint": "tslint -p . -c tslint.json 'src/**/*.ts'"
   },
   "ava": {
     "typescript": {
@@ -42,10 +41,10 @@
     "@types/jszip": "^3.1.6",
     "@types/long": "4.0.0",
     "@types/node": "^12.0.4",
+    "@zeit/ncc": "0.22.3",
     "ava": "3.8.1",
     "micromatch": "4.0.2",
     "tslint": "^6.1.0",
-    "typescript": "^3.7.5",
-    "removeNPMAbsolutePaths": "2.0.0"
+    "typescript": "^3.7.5"
   }
 }
